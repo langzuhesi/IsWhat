@@ -12,7 +12,7 @@ UCLASS()
 class ISWHAT_API AIsWhatGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+	virtual void StartPlay() override;
 	
 	
 	
