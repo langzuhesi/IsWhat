@@ -3,6 +3,11 @@
 #include "IsWhat.h"
 #include "FPSCharacter.h"
 #include "FPSProjectile.h"
+#include "Animation/AnimInstance.h"
+#include "GameFramework/InputSettings.h"
+#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
+
+
 
 // Sets default values   【这类文件声明在哪呢？？】（声明在.h文件里-，-。。。）√
 AFPSCharacter::AFPSCharacter()
@@ -135,6 +140,26 @@ void AFPSCharacter::StopJump()
 
 void AFPSCharacter::Fire()
 {
+	/* 这里主要写，关于 绑定动画 */
+
+	// try and play a firing animation if specified
+	if (FireAnimation != NULL)
+	{
+		// Get the animation object for the arms mesh
+		UAnimInstance* AnimInstance = FPSMesh->GetAnimInstance();
+		//要特别注意是谁绑定了动画
+		if (AnimInstance != NULL)
+		{
+			AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
+	// try and play the sound if specified
+	if (FireSound != NULL)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	}
+
+
 	// 尝试发射物体。
 	if (ProjectileClass)
 	{
